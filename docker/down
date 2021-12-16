@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# shellcheck disable=SC2046
+SCRIPT_DIR=$(readlink -e $(dirname $0))
+
+bash -c "cd ${SCRIPT_DIR} && docker-compose down"

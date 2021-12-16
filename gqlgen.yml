@@ -1,0 +1,20 @@
+schema:
+  - server/graphql/schema.graphql
+
+exec:
+  filename: server/graphql/generated.go
+
+model:
+  filename: server/graphql/model/models_gen.go
+  package: gqlmodel
+
+resolver:
+  filename: server/graphql/resolver.go
+  type: Resolver
+
+
+models:
+  Product:
+    model:  github.com/arkannsk/gql-example-service/db/models.Product
+  User:
+    model: github.com/arkannsk/gql-example-service/db/models.User

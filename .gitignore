@@ -1,0 +1,7 @@
+.idea
+.env
+jwt-keys
+
+bin
+docker/volumes
+docker/docker-compose.yml
