@@ -81,18 +81,7 @@ func CreateRequestSignInByCode(phone string, code string, codeTTL int, db *pg.DB
 	}
 	// already have not expired code
 	if currentAuthRequest != nil {
-		if err := db.RunInTransaction(context.Background(), func(tx *pg.Tx) error {
-			// user not exists
-			if !currentAuthRequest.UserId.Valid {
-				err = InsertUser(phone, tx)
-				if err != nil {
-					return err
-				}
-			}
-			return errors.New("user must wait new code or enter correct code")
-		}); err != nil {
-			return err
-		}
+		return errors.New("user must wait new code or enter correct code")
 	} else {
 		if err := db.RunInTransaction(context.Background(), func(tx *pg.Tx) error {
 			exist, err := IsUserExistByCriteria(UserCriteria{Phone: phone}, db)
