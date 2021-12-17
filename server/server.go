@@ -11,10 +11,6 @@ import (
 	"net/http"
 )
 
-type Server struct {
-	Port uint
-}
-
 type server struct {
 	listener *http.Server
 }
