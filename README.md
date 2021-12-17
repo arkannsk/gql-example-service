@@ -29,4 +29,7 @@ dbmate new {migration_name}
 dbmate -e POSTGRES_URL --no-dump-schema up
 # откатить миграций
 dbmate -e POSTGRES_URL --no-dump-schema down
+
+#залить немного данных
+cat seed.sql | psql -h localhost -p 7232 -d postgres -U staging
 ```

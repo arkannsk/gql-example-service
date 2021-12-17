@@ -47,6 +47,9 @@ CREATE TABLE IF NOT EXISTS phone_auth_request_attempts
     success                bool       NOT NULL DEFAULT FALSE
 );
 
+-- ALTER TABLE phone_auth_request_attempts ADD CONSTRAINT fk_phone_auth_request_attempts__phone_auth_requests_id
+-- FOREIGN KEY (phone_auth_requests_id) REFERENCES phone_auth_request(id);
+
 -- migrate:down
 
 DROP TABLE IF EXISTS products;
