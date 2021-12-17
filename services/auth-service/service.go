@@ -9,7 +9,7 @@ import (
 type AuthService struct {
 	db                        *pg.DB
 	phoneAuthCodeTTL          int // in seconds
-	phoneAuthMaxWrongAttempts int // in seconds
+	phoneAuthMaxAttemptsCount int // in seconds
 	jwtPublicKey              *rsa.PublicKey
 	jwtPrivateKey             *rsa.PrivateKey
 	JwtTokenTTL               int // in minutes
@@ -18,7 +18,7 @@ type AuthService struct {
 func NewAuthService(
 	db *pg.DB,
 	phoneAuthCodeTTL int,
-	phoneAuthMaxWrongAttempts int,
+	phoneAuthMaxAttemptsCount int,
 	jwtTokenTTL int,
 	jwtPublicKeyPath string,
 	jwtPrivateKeyPath string) *AuthService {
@@ -33,13 +33,9 @@ func NewAuthService(
 	return &AuthService{
 		db:                        db,
 		phoneAuthCodeTTL:          phoneAuthCodeTTL,
-		phoneAuthMaxWrongAttempts: phoneAuthMaxWrongAttempts,
+		phoneAuthMaxAttemptsCount: phoneAuthMaxAttemptsCount,
 		jwtPublicKey:              publicKey,
 		jwtPrivateKey:             privateKey,
 		JwtTokenTTL:               jwtTokenTTL,
 	}
-}
-
-func (s *AuthService) GeneratePhoneAuthCode() string {
-	return ""
 }

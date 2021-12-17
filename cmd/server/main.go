@@ -19,7 +19,7 @@ func main() {
 	postgresDB := db.NewDBConnection(config.Param.DB)
 
 	authService := auth_service.NewAuthService(postgresDB, config.Param.PhoneAuthCodeTTL,
-		config.Param.PhoneAuthMaxWrongAttempts, config.Param.JWTTokenTTL,
+		config.Param.PhoneAuthMaxAttemptsCount, config.Param.JWTTokenTTL,
 		config.Param.JWTPublicKeyPath, config.Param.JWTPrivateKeyPath)
 
 	sigChan := make(chan error, 2)

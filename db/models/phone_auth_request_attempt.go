@@ -27,7 +27,7 @@ func CreatePhoneAuthRequestAttempt(reqID int, inputCode string, success bool, tx
 	return nil
 }
 
-func SignInByPhoneAuthCode(phone string, inputCode string, db *pg.DB) (int, error) {
+func SignInByPhoneAuthCode(phone string, inputCode string, maxAttemptsCount int, db *pg.DB) (int, error) {
 	currentAuthRequest, err := CheckPhoneAuthRequest(phone, db)
 	if err != nil {
 		return 0, err
@@ -35,8 +35,11 @@ func SignInByPhoneAuthCode(phone string, inputCode string, db *pg.DB) (int, erro
 	if currentAuthRequest == nil {
 		return 0, errors.New("code was expired or not requested")
 	}
-	if err := db.RunInTransaction(context.Background(), func(tx *pg.Tx) error {
-		success := currentAuthRequest.Code == inputCode
+	if currentAuthRequest.Attempts+1 > maxAttemptsCount {
+		return 0, errors.New("too many tries enter code")
+	}
+	success := currentAuthRequest.Code == inputCode
+	if err = db.RunInTransaction(context.Background(), func(tx *pg.Tx) error {
 		err = CreatePhoneAuthRequestAttempt(currentAuthRequest.RequestID, inputCode, success, tx)
 		if err != nil {
 			return err
@@ -46,12 +49,13 @@ func SignInByPhoneAuthCode(phone string, inputCode string, db *pg.DB) (int, erro
 			if err != nil {
 				return err
 			}
-		} else {
-			return errors.New("invalid code")
 		}
 		return nil
 	}); err != nil {
 		return 0, err
+	}
+	if !success {
+		return 0, errors.New("wrong code")
 	}
 
 	return int(currentAuthRequest.UserId.Int64), nil

@@ -5,7 +5,7 @@ import (
 )
 
 func (s *AuthService) SignInByPhoneCode(phone string, code string) (string, error) {
-	userID, err := models.SignInByPhoneAuthCode(phone, code, s.db)
+	userID, err := models.SignInByPhoneAuthCode(phone, code, s.phoneAuthMaxAttemptsCount, s.db)
 	if err != nil {
 		return "", err
 	}

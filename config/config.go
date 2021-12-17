@@ -15,7 +15,7 @@ type Parameters struct {
 	JWTPrivateKeyPath         string `envconfig:"JWT_PRIVATE_KEY_PATH" default:""`
 	JWTTokenTTL               int    `envconfig:"JWT_TOKEN_TTL" default:"120"`                 // in minutes
 	PhoneAuthCodeTTL          int    `envconfig:"PHONE_AUTH_CODE_TTL" default:"120"`           // in seconds
-	PhoneAuthMaxWrongAttempts int    `envconfig:"PHONE_AUTH_MAX_WRONG_ATTEMPTS" default:"120"` // in seconds
+	PhoneAuthMaxAttemptsCount int    `envconfig:"PHONE_AUTH_MAX_WRONG_ATTEMPTS" default:"120"` // in seconds
 }
 
 var Param Parameters

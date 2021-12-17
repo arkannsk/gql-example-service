@@ -61,6 +61,9 @@ func (s *AuthService) Parse(tokenString string) (*Token, error) {
 }
 
 func (s *AuthService) CreateToken(userID int) (string, error) {
+	if userID <= 0 {
+		return "", errors.New("user is invalid")
+	}
 	t := jwt.New(jwt.GetSigningMethod("RS256"))
 
 	now := time.Now().UTC()
